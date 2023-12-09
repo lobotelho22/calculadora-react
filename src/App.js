@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Input from './components/Input'
-import { Container, Content, Row } from "./styles";
+import sideBar, { Column, Container, Content, Row } from "./styles";
 import Button from './components/Button';
 import { ThemeProvider } from 'styled-components';
-import theme from './components/Button/styles';
+import { allClear, addBtn } from './components/Button/styles';
 
 const operations = ["+", "-", "/", "*"]
+const SOMA = operations[0]
+const SUB = operations[1]
+const DIV = operations[2]
+const PROD = operations[3]
 
 function App() {
     const [currentNumber, setCurrentNumber] = useState("0");
@@ -35,18 +39,18 @@ function App() {
     }
 
     const handleFloat = () => {
-        if (!currentNumber.includes(".")){
+        if (!currentNumber.includes(".")) {
             setCurrentNumber(prev => prev + ".")
         }
     }
 
     const handleClear = () => {
-        setCurrentNumber ("0")
+        setCurrentNumber("0")
     }
 
     const getTotal = () => {
         const last = currentNumber.length - 1
-        if (!operations.includes(currentNumber[last])){
+        if (!operations.includes(currentNumber[last])) {
             setCurrentNumber(total.toString())
         }
     }
@@ -56,40 +60,45 @@ function App() {
             <Content>
                 <Input value={currentNumber} />
                 <Row>
-                    <ThemeProvider theme={theme}>
+                    <ThemeProvider theme={allClear}>
                         <Button label="C" onClick={() => handleClear()} />
                     </ThemeProvider>
+                    <Button label={DIV} onClick={() => handleNumber(DIV)} />
+                    <Button label={DIV} onClick={() => handleNumber(DIV)} />
+                    <Button label={DIV} onClick={() => handleNumber(DIV)} />
                 </Row>
                 <Row>
-                    { operations.map((operator) => {
-                        return(
-                            <Button
-                                label={operator}
-                                key={`operacao-${operator}`}
-                                onClick={() => handleNumber(operator)}
-                            />
-                        )
-                    }) }
+                    <Button label="7" onClick={() => handleNumber("7")} />
+                    <Button label="8" onClick={() => handleNumber("8")} />
+                    <Button label="9" onClick={() => handleNumber("9")} />
+                    <Button label="X" onClick={() => handleNumber(PROD)} />
                 </Row>
                 <Row>
-                    <Button label="9" onClick={() => handleNumber("9")}/>
-                    <Button label="8" onClick={() => handleNumber("8")}/>
-                    <Button label="7" onClick={() => handleNumber("7")}/>
+                    <Button label="4" onClick={() => handleNumber("4")} />
+                    <Button label="5" onClick={() => handleNumber("5")} />
+                    <Button label="6" onClick={() => handleNumber("6")} />
+                    <Button label={SUB} onClick={() => handleNumber(SUB)} />
                 </Row>
                 <Row>
-                    <Button label="6" onClick={() => handleNumber("6")}/>
-                    <Button label="5" onClick={() => handleNumber("5")}/>
-                    <Button label="4" onClick={() => handleNumber("4")}/>
-                </Row>
-                <Row>
-                    <Button label="3" onClick={() => handleNumber("3")}/>
-                    <Button label="2" onClick={() => handleNumber("2")}/>
-                    <Button label="1" onClick={() => handleNumber("1")}/>
-                </Row>
-                <Row>
-                    <Button label="0" onClick={() => handleNumber("0")}/>
-                    <Button label="." onClick={() => handleFloat()}/>
-                    <Button label="=" onClick={() => getTotal()}/>
+
+                    <Column>
+
+                        <Row>
+                            <Button label="3" onClick={() => handleNumber("3")} />
+                            <Button label="2" onClick={() => handleNumber("2")} />
+                            <Button label="1" onClick={() => handleNumber("1")} />
+                        </Row>
+                        <Row>
+                            <Button label="0" onClick={() => handleNumber("0")} />
+                            <Button label="." onClick={() => handleFloat()} />
+                            <Button label="=" onClick={() => getTotal()} />
+                        </Row>
+                    </Column>
+                        <Column theme={sideBar}>
+                            <ThemeProvider theme={addBtn}>
+                                <Button label={SOMA} onClick={() => handleNumber(SOMA)}/>
+                            </ThemeProvider>
+                        </Column>
                 </Row>
             </Content>
         </Container>

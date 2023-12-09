@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const ButtonContainer = styled.button`
     padding: 10px;
-    border: 1px solid #CDCDCD;
+    border: ${props => props.theme.border};
     color: #FFF;
     font-size: 24px;
     font-weifght: 700;
@@ -21,19 +21,34 @@ export const ButtonContainer = styled.button`
 
 ButtonContainer.defaultProps = {
     theme: {
-        bgColor: "#00ff13",
+        border: "2px solid #484848",
+        bgColor: "#010B02",
         radiusBorder: "8px",
         height: "100%",
-        flex: "1",
+        flex: "none",
+        width: "70px",
     }
 }
 
-const theme = {
+const addBtn = {
+    border: "2px solid #8b284d",
+    bgColor: "#F00",
+    radiusBorder: "8px",
+    height: "100%",
+    flex: "none",
+    width: "70px",
+}
+
+const allClear = {
+    border: "2px solid #8b284d",
     bgColor: "#F00",
     radiusBorder: "100%",
-    height: "80px",
-    width: "80px",
+    height: "70px",
+    width: "70px",
     flex: "none",
 }
 
-export default theme;
+export {
+    allClear,
+    addBtn
+}

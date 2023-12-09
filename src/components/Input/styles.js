@@ -23,11 +23,11 @@ export const InputContainer = styled.div`
 
     input {
         width: 100%;
-        min-height: 75px;
+        height: 62px;
         background-color: #AFA;
         border-radius: 15px;
         text-align: right;
-        font-size: 3rem;
+        font-size: 2.8rem;
         padding: 14px 14px;
 
         font-weight: 400;
