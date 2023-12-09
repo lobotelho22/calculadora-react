@@ -17,43 +17,55 @@ function App() {
     const [currentNumber, setCurrentNumber] = useState("0");
     const [total, setTotal] =   useState(0);
 
+    // useEffect(() => {
+    //     const buttons = document.getElementsByTagName("button")
+    //     for (let i = 0; i < buttons.length; i++) {
+    //         console.log(buttons)
+    //     }
+    // })
+
     useEffect(() => {
         const last = currentNumber.length - 1
         let expression = currentNumber
-        if (expression.includes(PERC)) {
-            while (expression.includes(PERC)) {
-                let percent = [];
-                for(let i=expression.length-1; i>=0; i--) {
-                    const value = expression[i]
-                    if (value !== PERC) {
-                        percent.unshift(value)
-                        if (operations.includes(value)){ break }
-                    }
-                    else {
-                        if (percent.includes(PERC)) { break }
-                        percent.push(value)
-                    }
-                }
-                percent = percent.join("")
-                if (percent[0] == SOMA || percent[0] == SUB) {
-                    expression = expression.replace(percent,`* (1${percent})`)
-                }
 
-                console.log(percent[0] == DIV)
-                if (percent[0] == DIV) {
-                    percent = percent.slice(1)
-                    expression = expression.replace(percent, ` (${percent})`)
-                }
-
-                expression = expression.replace(PERC, " * 1/100")
-            }
-        } 
+        if (expression.includes(PERC)) { expression = getExpression(expression) } 
+        
         if (!operations.includes(expression[last])) {
             const returnTotal = new Function(`return ${expression}`)
             const response = returnTotal()
             setTotal(() => response.toString())
         }
     }, [currentNumber])
+
+    const getExpression = (expression) => {
+
+        while (expression.includes(PERC)) {
+            let percent = [];
+            for(let i=expression.length-1; i>=0; i--) {
+                const value = expression[i]
+                if (value !== PERC) {
+                    percent.unshift(value)
+                    if (operations.includes(value)){ break }
+                }
+                else {
+                    if (percent.includes(PERC)) { break }
+                    percent.push(value)
+                }
+            }
+
+            percent = percent.join("")
+
+            if (percent[0] === SOMA || percent[0] === SUB) { expression = expression.replace(percent,`* (1${percent})`) }
+
+            if (percent[0] === DIV) {
+                percent = percent.slice(1)
+                expression = expression.replace(percent, ` (${percent})`)
+            }
+
+            expression = expression.replace(PERC, " * 1/100")
+            return expression
+        }
+    }
 
     const handleNumber = (number) => {
         if ((currentNumber === "0" && operations.includes(number)) || currentNumber !== "0") {
@@ -64,9 +76,22 @@ function App() {
     }
 
     const handleKeyUp = (key) => {
-        const ALGARISMS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-        if (ALGARISMS.includes(key)) {
+        const ALGARISMS_AND_OPS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/"]
+        
+        if (ALGARISMS_AND_OPS.includes(key)) {
             handleNumber(key)
+        }
+        if (key === "Escape") { setCurrentNumber("0") }
+        if (key === "Enter") { getTotal() }
+        if (key === "s") { calculateSQRT() }
+
+        if (key === "Backspace") {    
+            let eraseLastChar = currentNumber.slice(0, currentNumber.length-1)
+            if (eraseLastChar.length === 0) {
+                eraseLastChar = "0"
+            }
+            
+            setCurrentNumber(eraseLastChar)
         }
     }
 
@@ -88,7 +113,7 @@ function App() {
         }
     }
 
-    const calculate = () => {
+    const calculateSQRT = () => {
         const result = Math.sqrt(total)
         setCurrentNumber(result.toString());
     }
@@ -101,7 +126,7 @@ function App() {
                     <ThemeProvider theme={allClear}>
                         <Button label="C" onClick={() => handleClear()} />
                     </ThemeProvider>
-                    <Button label={SQRT} onClick={() => calculate(SQRT)} />
+                    <Button label={SQRT} onClick={() => calculateSQRT(SQRT)} />
                     <Button label={PERC} onClick={() => handleNumber(PERC)} />
                     <Button label={DIV} onClick={() => handleNumber(DIV)} />
                 </Row>
