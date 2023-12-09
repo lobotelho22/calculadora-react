@@ -76,6 +76,7 @@ function App() {
     }
 
     const handleKeyUp = (key) => {
+        console.log(key)
         const ALGARISMS_AND_OPS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "+", "-", "*", "/"]
         
         if (ALGARISMS_AND_OPS.includes(key)) {
@@ -84,6 +85,7 @@ function App() {
         if (key === "Escape") { setCurrentNumber("0") }
         if (key === "Enter") { getTotal() }
         if (key === "s") { calculateSQRT() }
+        if (key === "," || key === ".") { handleFloat() }
 
         if (key === "Backspace") {    
             let eraseLastChar = currentNumber.slice(0, currentNumber.length-1)
@@ -98,6 +100,14 @@ function App() {
     const handleFloat = () => {
         if (!currentNumber.includes(".")) {
             setCurrentNumber(prev => prev + ".")
+        }
+
+        if (currentNumber.includes(".")) {
+            const lastDot = currentNumber.lastIndexOf(".")
+            const sliceDot = currentNumber.slice(lastDot)
+            const tryDot = (sliceDot.includes(SOMA) || sliceDot.includes(SUB) || sliceDot.includes(PROD) || sliceDot.includes(DIV) || sliceDot.includes(PERC))
+
+            if (tryDot) { setCurrentNumber(prev => prev + ".") }
         }
     }
 
