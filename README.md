@@ -21,7 +21,7 @@ Bem-vindo ao repositório da Calculadora React, uma aplicação simples desenvol
 ## Como Usar
 
 1. Clone este repositório.
-2. Certifique-se de ter o Node.js instalado.
+2. Certifique-se de ter o Node.js instalado, versão 16.
 3. Instale as dependências usando `npm install`.
 4. Inicie a aplicação com `npm start`.
 
